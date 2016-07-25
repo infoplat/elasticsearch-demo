@@ -127,7 +127,7 @@ public class ElasticSearchHandler {
         String type = "typedemo";
 //        esHandler.createIndexResponse(indexname, type, jsondata);
         //查询条件
-        QueryBuilder queryBuilder = QueryBuilders.matchQuery("name", "大数据");
+        QueryBuilder queryBuilder = QueryBuilders.matchQuery("funciton", "培训");
         List<Sxtdept> result = esHandler.searcher(queryBuilder, indexname, type);
         for(int i=0; i<result.size(); i++){
             Sxtdept sxtdept = result.get(i);

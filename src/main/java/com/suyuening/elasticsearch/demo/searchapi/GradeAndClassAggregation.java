@@ -14,26 +14,34 @@ import com.suyuening.elasticsearch.util.ESClient;
 
 public class GradeAndClassAggregation {
     /**
-     * Java分组统计年级和班级学生个数
-     * 如SQL: SELECT grade,class,count(1) FROM student GROUP BY grade,class;
+     * Java分组统计年级和班级学生个数.<br/>如SQL: SELECT grade,class,count(1) FROM student GROUP BY grade,class;
      */
     @Test
     public void testAggregation() {
 
-//        索引数据
-//        index:school
-//        type:student
-//        ---------------------------------------------------
-//        {"grade":"1", "class":"1", "name":"xiao 1"}
-//        {"grade":"1", "class":"1", "name":"xiao 2"}
-//        {"grade":"1", "class":"2", "name":"xiao 3"}
-//        {"grade":"1", "class":"2", "name":"xiao 4"}
-//        {"grade":"1", "class":"2", "name":"xiao 5"}
-//        {"grade":"2", "class":"1", "name":"xiao 6"}
-//        {"grade":"2", "class":"1", "name":"xiao 7"}
-//        {"grade":"2", "class":"1", "name":"xiao 8"}
-//        {"grade":"2", "class":"2", "name":"xiao 9"}
-//        {"grade":"2", "class":"2", "name":"xiao 10"}
+        // 索引数据
+        // index:school
+        // type:student
+        // ---------------------------------------------------
+        // {"grade":"1", "class":"1", "name":"xiao 1"}
+        // {"grade":"1", "class":"1", "name":"xiao 2"}
+        // {"grade":"1", "class":"2", "name":"xiao 3"}
+        // {"grade":"1", "class":"2", "name":"xiao 4"}
+        // {"grade":"1", "class":"2", "name":"xiao 5"}
+        // {"grade":"2", "class":"1", "name":"xiao 6"}
+        // {"grade":"2", "class":"1", "name":"xiao 7"}
+        // {"grade":"2", "class":"1", "name":"xiao 8"}
+        // {"grade":"2", "class":"2", "name":"xiao 9"}
+        // {"grade":"2", "class":"2", "name":"xiao 10"}
+
+        // 输出结果
+        // 1年级有5个学生。
+        // 1年级2班有3个学生。
+        // 1年级1班有2个学生。
+        //
+        // 2年级有5个学生。
+        // 2年级1班有3个学生。
+        // 2年级2班有2个学生。
 
         SearchResponse sr = ESClient.client().prepareSearch("school").setTypes("student")
                 .addAggregation(AggregationBuilders.terms("gradeAgg").field("grade")
