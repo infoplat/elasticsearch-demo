@@ -8,7 +8,7 @@ import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 
-import com.suyuening.elasticsearch.demo.enums.ESHost;
+import com.suyuening.elasticsearch.enums.ESHost;
 
 /**
  * ES Client工具类，提供Client单例和关闭方法

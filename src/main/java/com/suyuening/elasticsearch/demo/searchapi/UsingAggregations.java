@@ -23,16 +23,13 @@ public class UsingAggregations {
             // TODO 没有弄明白这个示例
             // The following code shows how to add two aggregations within your search:
             SearchResponse sr =
-                    ESClient.client().prepareSearch("customer", "twitter")
+                    ESClient.client().prepareSearch("movielens")
                             .setQuery(QueryBuilders.matchAllQuery())
-                            .addAggregation(AggregationBuilders.terms("age").field("user"))
-                            .addAggregation(AggregationBuilders.dateHistogram("balance")
-                                    .field("age").interval(DateHistogramInterval.YEAR))
+                            .addAggregation(AggregationBuilders.terms("agg").field("userId"))
                             .execute().actionGet();
 
             // Get your facet results
-            Terms agg1 = sr.getAggregations().get("age");
-
+            Terms agg1 = sr.getAggregations().get("agg");
             System.out.println(agg1.getName());
             // DateHistogram agg2 = sr.getAggregations().get("agg2");
         } catch (Exception e) {
