@@ -42,8 +42,8 @@ public final class ESClient {
      * @return ES客户端
      */
     public static Client client(String clusterName) {
-        Settings settings = Settings.settingsBuilder().put("cluster.name", clusterName).build();
         if (client == null) {
+            Settings settings = Settings.settingsBuilder().put("cluster.name", clusterName).build();
             try {
                 TransportClient addTransportAddress =
                         TransportClient.builder().settings(settings).build();

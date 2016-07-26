@@ -14,7 +14,8 @@ import com.suyuening.elasticsearch.util.ESClient;
 
 public class GradeAndClassAggregation {
     /**
-     * Java分组统计年级和班级学生个数.<br/>如SQL: SELECT grade,class,count(1) FROM student GROUP BY grade,class;
+     * Java分组统计年级和班级学生个数.<br/>
+     * 如SQL: SELECT grade,class,count(1) FROM student GROUP BY grade,class;
      */
     @Test
     public void testAggregation() {
