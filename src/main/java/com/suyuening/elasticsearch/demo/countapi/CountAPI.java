@@ -3,6 +3,7 @@ package com.suyuening.elasticsearch.demo.countapi;
 import static org.elasticsearch.index.query.QueryBuilders.termQuery;
 
 import org.elasticsearch.action.count.CountResponse;
+import org.junit.Test;
 
 import com.suyuening.elasticsearch.util.ESClient;
 
@@ -15,9 +16,12 @@ import com.suyuening.elasticsearch.util.ESClient;
  *
  */
 public class CountAPI {
-    public static void main(String[] args) {
-        CountResponse response = ESClient.client().prepareCount("customer")
-                .setQuery(termQuery("_type", "external"))
+    @Test
+    public void testCount() {
+        @SuppressWarnings("deprecation")
+        CountResponse response = ESClient.client().prepareCount("movielens")
+                .setQuery(termQuery("_type", "movies"))
+                .setQuery(termQuery("movieId", "1999"))
                 .execute()
                 .actionGet();
 

@@ -15,11 +15,11 @@ import com.suyuening.elasticsearch.util.ESClient;
  */
 public class SearchAPI {
     public static void main(String[] args) {
-        SearchResponse response = ESClient.client().prepareSearch("customer", "twitter") // 指定index
-                .setTypes("external", "tweet") // 指定type
+        SearchResponse response = ESClient.client().prepareSearch("movielens", "school") // 指定index
+                .setTypes("ratings", "student") // 指定type
                 .setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
-                .setQuery(QueryBuilders.termQuery("name", "wangwu"))                 // Query
-                .setPostFilter(QueryBuilders.rangeQuery("age").from(18).to(46))     // Filter
+                .setQuery(QueryBuilders.termQuery("movieId", "367"))                 // Query
+//                .setPostFilter(QueryBuilders.rangeQuery("rating").from(4).to(4.5))     // Filter
                 .setFrom(0).setSize(60).setExplain(true)
                 .execute()
                 .actionGet();
@@ -34,6 +34,7 @@ public class SearchAPI {
             System.out.println(searchHit.getId());
             System.out.println(searchHit.getSourceAsString());
         }
+        System.out.println(hits.getTotalHits());
 
         ESClient.close();
     }
