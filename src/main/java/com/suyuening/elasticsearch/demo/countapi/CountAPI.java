@@ -1,6 +1,7 @@
 package com.suyuening.elasticsearch.demo.countapi;
 
 import static org.elasticsearch.index.query.QueryBuilders.termQuery;
+import static org.junit.Assert.assertEquals;
 
 import org.elasticsearch.action.count.CountResponse;
 import org.junit.Test;
@@ -16,17 +17,14 @@ import com.suyuening.elasticsearch.util.ESClient;
  *
  */
 public class CountAPI {
-    @Test
-    public void testCount() {
-        @SuppressWarnings("deprecation")
-        CountResponse response = ESClient.client().prepareCount("movielens")
-                .setQuery(termQuery("_type", "movies"))
-                .setQuery(termQuery("movieId", "1999"))
-                .execute()
-                .actionGet();
+	@Test
+	public void testCount() {
+		@SuppressWarnings("deprecation")
+		CountResponse response = ESClient.client().prepareCount("movielens").setQuery(termQuery("_type", "movies"))
+				.setQuery(termQuery("movieId", "1999")).execute().actionGet();
 
-        System.out.println(response.getCount());
+		assertEquals(17, response.getCount());
 
-        ESClient.close();
-    }
+		ESClient.close();
+	}
 }
