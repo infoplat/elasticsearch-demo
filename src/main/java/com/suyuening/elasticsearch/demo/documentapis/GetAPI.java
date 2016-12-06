@@ -4,7 +4,7 @@ import java.util.Map;
 
 import org.elasticsearch.action.get.GetResponse;
 
-import com.suyuening.elasticsearch.util.ESClient;
+import com.suyuening.elasticsearch.utils.ESClient;
 
 /**
  * <a href="https://www.elastic.co/guide/en/elasticsearch/client/java-api/current/java-docs-get.html" target="_blank">查看ES Doc</a>

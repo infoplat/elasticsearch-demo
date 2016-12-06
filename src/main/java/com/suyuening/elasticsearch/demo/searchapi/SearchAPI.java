@@ -6,7 +6,7 @@ import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
 
-import com.suyuening.elasticsearch.util.ESClient;
+import com.suyuening.elasticsearch.utils.ESClient;
 
 /**
  * <a href="https://www.elastic.co/guide/en/elasticsearch/client/java-api/current/java-search.html" target="_blank">查看ES Doc</a>

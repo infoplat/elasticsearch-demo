@@ -9,7 +9,7 @@ import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.sort.SortOrder;
 import org.elasticsearch.search.sort.SortParseElement;
 
-import com.suyuening.elasticsearch.util.ESClient;
+import com.suyuening.elasticsearch.utils.ESClient;
 
 /**
  * <a href=

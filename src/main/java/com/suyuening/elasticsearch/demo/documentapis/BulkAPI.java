@@ -8,7 +8,7 @@ import java.util.Date;
 import org.elasticsearch.action.bulk.BulkRequestBuilder;
 import org.elasticsearch.action.bulk.BulkResponse;
 
-import com.suyuening.elasticsearch.util.ESClient;
+import com.suyuening.elasticsearch.utils.ESClient;
 
 /**
  * <a href="https://www.elastic.co/guide/en/elasticsearch/client/java-api/current/java-docs-bulk.html" target="_blank">查看ES Doc</a>

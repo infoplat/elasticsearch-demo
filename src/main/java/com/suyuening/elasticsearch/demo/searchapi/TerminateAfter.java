@@ -4,7 +4,7 @@ import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
 
-import com.suyuening.elasticsearch.util.ESClient;
+import com.suyuening.elasticsearch.utils.ESClient;
 
 /**
  * <a href=

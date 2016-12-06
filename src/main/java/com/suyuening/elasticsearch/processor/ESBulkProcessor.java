@@ -12,7 +12,7 @@ import org.elasticsearch.common.unit.ByteSizeUnit;
 import org.elasticsearch.common.unit.ByteSizeValue;
 import org.elasticsearch.common.unit.TimeValue;
 
-import com.suyuening.elasticsearch.util.ESClient;
+import com.suyuening.elasticsearch.utils.ESClient;
 
 public class ESBulkProcessor {
     public static void process(String index, String type, List<String> jsonFields) {
@@ -30,10 +30,10 @@ public class ESBulkProcessor {
                                       BulkRequest request,
                                       Throwable failure) {} 
             })
-            .setBulkActions(10000) 
+            .setBulkActions(100000) 
             .setBulkSize(new ByteSizeValue(1, ByteSizeUnit.GB)) 
             .setFlushInterval(TimeValue.timeValueSeconds(5)) 
-            .setConcurrentRequests(5) 
+            .setConcurrentRequests(10) 
             .setBackoffPolicy(BackoffPolicy.exponentialBackoff(TimeValue.timeValueMillis(100), 3)) 
             .build();
 

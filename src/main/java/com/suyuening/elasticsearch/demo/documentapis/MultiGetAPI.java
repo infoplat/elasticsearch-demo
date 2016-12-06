@@ -4,7 +4,7 @@ import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.get.MultiGetItemResponse;
 import org.elasticsearch.action.get.MultiGetResponse;
 
-import com.suyuening.elasticsearch.util.ESClient;
+import com.suyuening.elasticsearch.utils.ESClient;
 
 /**
  * <a href="https://www.elastic.co/guide/en/elasticsearch/client/java-api/current/java-docs-multi-get.html" target="_blank">查看ES Doc</a>

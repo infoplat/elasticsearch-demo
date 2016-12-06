@@ -6,7 +6,7 @@ import static org.junit.Assert.assertEquals;
 import org.elasticsearch.action.count.CountResponse;
 import org.junit.Test;
 
-import com.suyuening.elasticsearch.util.ESClient;
+import com.suyuening.elasticsearch.utils.ESClient;
 
 /**
  * <a href=
