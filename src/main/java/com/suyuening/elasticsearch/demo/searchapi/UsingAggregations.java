@@ -1,9 +1,9 @@
 package com.suyuening.elasticsearch.demo.searchapi;
 
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.client.Client;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
-import org.elasticsearch.search.aggregations.bucket.histogram.DateHistogramInterval;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 
 import com.suyuening.elasticsearch.utils.ESClient;
@@ -17,26 +17,21 @@ import com.suyuening.elasticsearch.utils.ESClient;
  *
  */
 public class UsingAggregations {
-    public static void main(String[] args) {
+	public static void main(String[] args) {
 
-        try {
-            // TODO 没有弄明白这个示例
-            // The following code shows how to add two aggregations within your search:
-            SearchResponse sr =
-                    ESClient.client().prepareSearch("movielens")
-                            .setQuery(QueryBuilders.matchAllQuery())
-                            .addAggregation(AggregationBuilders.terms("agg").field("userId"))
-                            .execute().actionGet();
+		try (Client client = ESClient.client()) {
+			// TODO 没有弄明白这个示例
+			// The following code shows how to add two aggregations within your
+			// search:
+			SearchResponse sr = client.prepareSearch("movielens").setQuery(QueryBuilders.matchAllQuery())
+					.addAggregation(AggregationBuilders.terms("agg").field("userId")).execute().actionGet();
 
-            // Get your facet results
-            Terms agg1 = sr.getAggregations().get("agg");
-            System.out.println(agg1.getName());
-            // DateHistogram agg2 = sr.getAggregations().get("agg2");
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            ESClient.close();
-        }
-
-    }
+			// Get your facet results
+			Terms agg1 = sr.getAggregations().get("agg");
+			System.out.println(agg1.getName());
+			// DateHistogram agg2 = sr.getAggregations().get("agg2");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }

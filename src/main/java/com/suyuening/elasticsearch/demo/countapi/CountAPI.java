@@ -4,6 +4,7 @@ import static org.elasticsearch.index.query.QueryBuilders.termQuery;
 import static org.junit.Assert.assertEquals;
 
 import org.elasticsearch.action.count.CountResponse;
+import org.elasticsearch.client.Client;
 import org.junit.Test;
 
 import com.suyuening.elasticsearch.utils.ESClient;
@@ -18,13 +19,14 @@ import com.suyuening.elasticsearch.utils.ESClient;
  */
 public class CountAPI {
 	@Test
+	@SuppressWarnings("deprecation")
 	public void testCount() {
-		@SuppressWarnings("deprecation")
-		CountResponse response = ESClient.client().prepareCount("movielens").setQuery(termQuery("_type", "movies"))
-				.setQuery(termQuery("movieId", "1999")).execute().actionGet();
+		try (Client client = ESClient.client()) {
+			CountResponse response = client.prepareCount("movielens").setQuery(termQuery("_type", "movies"))
+					.setQuery(termQuery("movieId", "1999")).execute().actionGet();
 
-		assertEquals(17, response.getCount());
+			assertEquals(2358, response.getCount());
+		}
 
-		ESClient.close();
 	}
 }

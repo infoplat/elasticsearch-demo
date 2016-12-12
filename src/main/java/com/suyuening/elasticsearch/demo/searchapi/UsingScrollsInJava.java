@@ -3,6 +3,7 @@ package com.suyuening.elasticsearch.demo.searchapi;
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.client.Client;
 import org.elasticsearch.common.unit.TimeValue;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.search.SearchHit;
@@ -20,39 +21,32 @@ import com.suyuening.elasticsearch.utils.ESClient;
  *
  */
 public class UsingScrollsInJava {
-    public static void main(String[] args) {
-        QueryBuilder qb = termQuery("user", "lashou.com");
+	public static void main(String[] args) {
+		QueryBuilder qb = termQuery("user", "lashou.com");
 
-        SearchResponse scrollResp = ESClient.client().prepareSearch("customer", "twitter")
-                .addSort(SortParseElement.DOC_FIELD_NAME, SortOrder.ASC)
-                .setScroll(new TimeValue(60000)).setQuery(qb).setSize(100).execute().actionGet(); // 100
-                                                                                                  // hits
-                                                                                                  // per
-                                                                                                  // shard
-                                                                                                  // will
-                                                                                                  // be
-                                                                                                  // returned
-                                                                                                  // for
-                                                                                                  // each
-                                                                                                  // scroll
+		try (Client client = ESClient.client()) {
+			// 100 hits per shard will be returned for each scroll
+			SearchResponse scrollResp = client.prepareSearch("customer", "twitter")
+					.addSort(SortParseElement.DOC_FIELD_NAME, SortOrder.ASC).setScroll(new TimeValue(60000))
+					.setQuery(qb).setSize(100).execute().actionGet();
 
-        // Scroll until no hits are returned
-        while (true) {
+			// Scroll until no hits are returned
+			while (true) {
 
-            for (SearchHit hit : scrollResp.getHits().getHits()) {
-                System.out.println(hit.getIndex());
-                System.out.println(hit.getType());
-                System.out.println(hit.getId());
-                System.out.println(hit.getSourceAsString());
-            }
-            scrollResp = ESClient.client().prepareSearchScroll(scrollResp.getScrollId())
-                    .setScroll(new TimeValue(60000)).execute().actionGet();
-            // Break condition: No hits are returned
-            if (scrollResp.getHits().getHits().length == 0) {
-                break;
-            }
-        }
+				for (SearchHit hit : scrollResp.getHits().getHits()) {
+					System.out.println(hit.getIndex());
+					System.out.println(hit.getType());
+					System.out.println(hit.getId());
+					System.out.println(hit.getSourceAsString());
+				}
+				scrollResp = client.prepareSearchScroll(scrollResp.getScrollId()).setScroll(new TimeValue(60000))
+						.execute().actionGet();
+				// Break condition: No hits are returned
+				if (scrollResp.getHits().getHits().length == 0) {
+					break;
+				}
+			}
 
-        ESClient.close();
-    }
+		}
+	}
 }

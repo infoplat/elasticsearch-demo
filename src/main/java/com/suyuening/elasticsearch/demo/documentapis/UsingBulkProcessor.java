@@ -12,6 +12,7 @@ import org.elasticsearch.action.bulk.BulkRequest;
 import org.elasticsearch.action.bulk.BulkResponse;
 import org.elasticsearch.action.delete.DeleteRequest;
 import org.elasticsearch.action.index.IndexRequest;
+import org.elasticsearch.client.Client;
 import org.elasticsearch.common.unit.ByteSizeUnit;
 import org.elasticsearch.common.unit.ByteSizeValue;
 import org.elasticsearch.common.unit.TimeValue;
@@ -19,55 +20,29 @@ import org.elasticsearch.common.unit.TimeValue;
 import com.suyuening.elasticsearch.utils.ESClient;
 
 public class UsingBulkProcessor {
-    public static void main(String[] args) {
-        BulkProcessor bulkProcessor = BulkProcessor.builder(
-            ESClient.client(),  
-            new BulkProcessor.Listener() {
-                public void beforeBulk(long executionId,
-                                       BulkRequest request) {} 
+	public static void main(String[] args) {
+		try (Client client = ESClient.client()) {
+			BulkProcessor bulkProcessor = BulkProcessor.builder(client, new BulkProcessor.Listener() {
+				public void beforeBulk(long executionId, BulkRequest request) {
+				}
 
-                public void afterBulk(long executionId,
-                                      BulkRequest request,
-                                      BulkResponse response) {} 
+				public void afterBulk(long executionId, BulkRequest request, BulkResponse response) {
+				}
 
-                public void afterBulk(long executionId,
-                                      BulkRequest request,
-                                      Throwable failure) {} 
-            })
-            .setBulkActions(10000) 
-            .setBulkSize(new ByteSizeValue(1, ByteSizeUnit.GB)) 
-            .setFlushInterval(TimeValue.timeValueSeconds(5)) 
-            .setConcurrentRequests(1) 
-            .setBackoffPolicy(
-                BackoffPolicy.exponentialBackoff(TimeValue.timeValueMillis(100), 3)) 
-            .build();
-        
-        boolean isComplete = false; 
-                
-        try {
+				public void afterBulk(long executionId, BulkRequest request, Throwable failure) {
+				}
+			}).setBulkActions(10000).setBulkSize(new ByteSizeValue(1, ByteSizeUnit.GB))
+					.setFlushInterval(TimeValue.timeValueSeconds(5)).setConcurrentRequests(1)
+					.setBackoffPolicy(BackoffPolicy.exponentialBackoff(TimeValue.timeValueMillis(100), 3)).build();
 
-            bulkProcessor.add(new IndexRequest("twitter", "tweet", "4").source(
-                jsonBuilder()
-                .startObject()
-                .field("user", "wangwu")
-                .field("postDate", new Date())
-                .field("message", "Hello wangwu!")
-                .endObject()
-                    ));
-            bulkProcessor.add(new DeleteRequest("twitter", "tweet", "3"));
+			bulkProcessor.add(
+					new IndexRequest("twitter", "tweet", "4").source(jsonBuilder().startObject().field("user", "wangwu")
+							.field("postDate", new Date()).field("message", "Hello wangwu!").endObject()));
+			bulkProcessor.add(new DeleteRequest("twitter", "tweet", "3"));
 
-            isComplete = bulkProcessor.awaitClose(10, TimeUnit.MINUTES);
-            if (isComplete) {
-                ESClient.close();
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (!isComplete) {
-                ESClient.close();
-            }
-        }
-    }
+			bulkProcessor.awaitClose(10, TimeUnit.MINUTES);
+		} catch (InterruptedException | IOException e) {
+			e.printStackTrace();
+		}
+	}
 }
