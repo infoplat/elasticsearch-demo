@@ -1,2 +1,2 @@
 # elasticsearch-demo
-elasticsearch 2.3.4 demo
+本项目是使用elasticsearch 2.4.2的示例项目。
