@@ -18,7 +18,7 @@ import com.suyuening.elasticsearch.utils.ESClient;
 public class TerminateAfter {
 	public static void main(String[] args) {
 		try (Client client = ESClient.client()) {
-			SearchResponse sr = client.prepareSearch("customer").setTerminateAfter(5).get();
+			SearchResponse sr = client.prepareSearch("movielens").setTerminateAfter(5).get();
 
 			if (sr.isTerminatedEarly()) {
 				// We finished early
