@@ -7,6 +7,7 @@ import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
+import org.elasticsearch.transport.client.PreBuiltTransportClient;
 
 import com.suyuening.elasticsearch.enums.ESHost;
 
@@ -45,14 +46,20 @@ public final class ESClient {
 	 */
 	public static Client client(String clusterName) {
 		if (client == null) {
-			Settings settings = Settings.settingsBuilder().put("cluster.name", clusterName).build();
+//			Settings settings = Settings.settingsBuilder().put("cluster.name", clusterName).build();
+			Settings settings = Settings.builder().put("cluster.name", clusterName).build();
 			try {
-				TransportClient addTransportAddress = TransportClient.builder().settings(settings).build();
+//				TransportClient transportClient = TransportClient.builder().settings(settings).build();
+				TransportClient transportClient = new PreBuiltTransportClient(settings);
 				for (ESHost host : ESHost.values()) {
-					addTransportAddress.addTransportAddress(
+					transportClient.addTransportAddress(
 							new InetSocketTransportAddress(InetAddress.getByName(host.getHostName()), host.getPort()));
 				}
-				client = addTransportAddress;
+				client = transportClient;
+				
+				
+				
+				
 			} catch (UnknownHostException e) {
 				e.printStackTrace();
 			}
