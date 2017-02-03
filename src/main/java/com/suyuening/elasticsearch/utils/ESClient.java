@@ -57,9 +57,6 @@ public final class ESClient {
 				}
 				client = transportClient;
 				
-				
-				
-				
 			} catch (UnknownHostException e) {
 				e.printStackTrace();
 			}
