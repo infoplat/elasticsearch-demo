@@ -45,7 +45,8 @@ public final class ESClient {
 	 * @return ES客户端
 	 */
 	public static Client client(String clusterName) {
-		if (client == null) {
+//		if (client == null) {
+		if (true) {
 //			Settings settings = Settings.settingsBuilder().put("cluster.name", clusterName).build();
 			Settings settings = Settings.builder().put("cluster.name", clusterName).build();
 			try {

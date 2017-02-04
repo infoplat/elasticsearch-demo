@@ -23,7 +23,7 @@ public abstract class BaseIndexProcessor<T> {
 			T bean = null;
 			while ((line = reader.readLine()) != null) {
 				jsonLines.add(JSON.toJSONString(makeDomain(bean, line)));
-				if (jsonLines.size() == 100000) {
+				if (jsonLines.size() == 150000) {
 					process(index, type, jsonLines, processCount);
 				}
 				processCount++;

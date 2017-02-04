@@ -17,7 +17,7 @@ import com.suyuening.elasticsearch.utils.ESClient;
 
 public class ESBulkProcessor {
 	public static void process(String index, String type, List<String> jsonFields) {
-		try (Client client = ESClient.client()) {
+		try (Client client = ESClient.client("es5-bi-cluster")) {
 			BulkProcessor bulkProcessor = BulkProcessor.builder(client, new BulkProcessor.Listener() {
 				public void beforeBulk(long executionId, BulkRequest request) {
 				}
@@ -27,14 +27,14 @@ public class ESBulkProcessor {
 
 				public void afterBulk(long executionId, BulkRequest request, Throwable failure) {
 				}
-			}).setBulkActions(100000).setBulkSize(new ByteSizeValue(1, ByteSizeUnit.GB))
-					.setFlushInterval(TimeValue.timeValueSeconds(5)).setConcurrentRequests(10)
+			}).setBulkActions(150000).setBulkSize(new ByteSizeValue(100, ByteSizeUnit.MB))
+					.setFlushInterval(TimeValue.timeValueSeconds(30)).setConcurrentRequests(1)
 					.setBackoffPolicy(BackoffPolicy.exponentialBackoff(TimeValue.timeValueMillis(100), 3)).build();
 
 			for (String json : jsonFields) {
 				bulkProcessor.add(new IndexRequest(index, type).source(json));
 			}
-			bulkProcessor.awaitClose(30, TimeUnit.MINUTES);
+			bulkProcessor.awaitClose(10, TimeUnit.MINUTES);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}

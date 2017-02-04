@@ -6,8 +6,8 @@ package com.suyuening.elasticsearch.enums;
  *
  */
 public enum ESHost {
-    ES_HOST_01("bi-server-01", 9401),
-    ES_HOST_02("bi-server-02", 9402),
+//    ES_HOST_01("bi-server-01", 9401),
+//    ES_HOST_02("bi-server-02", 9402),
     ES_HOST_03("bi-server-03", 9403);
 //    ES_HOST_03("localhost", 9300);
 
